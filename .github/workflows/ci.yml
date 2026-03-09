@@ -8,15 +8,30 @@ on:
     branches:
       - main
   workflow_dispatch:
+
 jobs:
   testing:
     name: Testing
     runs-on: ubuntu-latest
     steps:
-      - name: Run unit tests with coverage
-            source venv/bin/activate
-            pytest --cov=domain --cov-report=term tests/
+      - name: Checkout code
+        uses: actions/checkout@v4
 
+      - name: Set up Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: '3.x'
+
+      - name: Install dependencies
+        run: |
+          python -m venv venv
+          source venv/bin/activate
+          pip install pytest pytest-cov
+
+      - name: Run unit tests with coverage
+        run: |
+          source venv/bin/activate
+          pytest --cov=domain --cov-report=term tests/
 
   ruff_check:
     name: Ruff Check
