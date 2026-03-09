@@ -1,8 +1,8 @@
 from typing import List
 
 from .exceptions import *
-from .models import Product, Order
-from .repositories import ProductRepository, OrderRepository
+from .models import Order, Product
+from .repositories import OrderRepository, ProductRepository
 
 
 class WarehouseService:
@@ -30,8 +30,7 @@ class WarehouseService:
 
     def create_order(self, products: List[Product]) -> Order:
         if not products:
-            raise OrderNotCreatedException(
-                message=f"An order can't be created. Product list is empty")
+            raise OrderNotCreatedException(message="An order can't be created. Product list is empty")
 
         list_unique_ids = set()
         list_ununique_products = []
@@ -45,7 +44,8 @@ class WarehouseService:
         if list_ununique_products:
             raise OrderNotCreatedException(
                 message=f"An order can't be created. These products {list_ununique_products} "
-                        f"have been added more than once.")
+                f"have been added more than once."
+            )
 
         all_products = self.list_product()
         unavailable_products = [product for product in products if product not in all_products]

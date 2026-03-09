@@ -1,12 +1,11 @@
 from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker
 
-from domain.models import Product
 from domain.services import WarehouseService
-from infrastructure.orm import Base
-from infrastructure.repositories import SqlAlchemyProductRepository, SqlAlchemyOrderRepository
-from infrastructure.unit_of_work import SqlAlchemyUnitOfWork
 from infrastructure.database import DATABASE_URL
+from infrastructure.orm import Base
+from infrastructure.repositories import SqlAlchemyOrderRepository, SqlAlchemyProductRepository
+from infrastructure.unit_of_work import SqlAlchemyUnitOfWork
 
 engine = create_engine(DATABASE_URL)
 SessionFactory = sessionmaker(bind=engine)
@@ -22,7 +21,7 @@ def main():
 
     warehouse_service = WarehouseService(product_repo, order_repo)
     with uow:
-        new_product = warehouse_service.create_product(name="test1", quantity=1, price=100)
+        warehouse_service.create_product(name="test1", quantity=1, price=100)
         uow.commit()
         list_product = warehouse_service.list_product()
         print(list_product)
@@ -34,7 +33,8 @@ def main():
         list_product = warehouse_service.list_product()
         print(list_product)
         warehouse_service.create_order(
-            products=list([warehouse_service.get_product(1), warehouse_service.get_product(2)]))
+            products=list([warehouse_service.get_product(1), warehouse_service.get_product(2)])
+        )
         print(warehouse_service.list_orders())
 
 

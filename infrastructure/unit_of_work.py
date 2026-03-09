@@ -1,7 +1,7 @@
 from domain.unit_of_work import UnitOfWork
 
-class SqlAlchemyUnitOfWork(UnitOfWork):
 
+class SqlAlchemyUnitOfWork(UnitOfWork):
     def __init__(self, session):
         pass
 
