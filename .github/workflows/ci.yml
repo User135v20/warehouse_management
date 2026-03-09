@@ -9,6 +9,15 @@ on:
       - main
   workflow_dispatch:
 jobs:
+  testing:
+    name: Testing
+    runs-on: ubuntu-latest
+    steps:
+      - name: Run unit tests with coverage
+            source venv/bin/activate
+            pytest --cov=domain --cov-report=term tests/
+
+
   ruff_check:
     name: Ruff Check
     runs-on: ubuntu-latest
