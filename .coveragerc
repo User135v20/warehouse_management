@@ -1,0 +1,4 @@
+[run]
+omit =
+    domain/unit_of_work.py
+    domain/repositories.py
